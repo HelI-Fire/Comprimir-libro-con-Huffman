@@ -3,164 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizador de 8 Algoritmos de Ordenamiento</title>
+    <title>Visualizador de 8 Algoritmos & Huffman</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <header>
-        <h1>Visualizador de Algoritmos de Ordenamiento</h1>
-        <p>Selecciona cualquiera de los 8 algoritmos, ajusta los parámetros y observa su funcionamiento.</p>
+    <!-- NAV BAR SUPERIOR CON 3 MENÚS -->
+    <header class="top-navbar">
+        <div class="brand">
+            <span class="logo">⚡</span> ALGORITMOS & HUFFMAN
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-item active" data-tab="tab-sorts">📊 Ordenamientos</button>
+            <button class="nav-item" data-tab="tab-huffman">🗜️ Huffman</button>
+            <button class="nav-item" data-tab="tab-libros">📚 Libros</button>
+        </nav>
     </header>
 
-    <!-- Tablero / Panel de Control Superior -->
-    <div class="control-panel">
-        <div class="control-group">
-            <label for="algorithm">Algoritmo</label>
-            <select id="algorithm">
-                <option value="bubble">Bubble Sort</option>
-                <option value="selection">Selection Sort</option>
-                <option value="insertion">Insertion Sort</option>
-                <option value="gnome">Gnome Sort</option>
-                <option value="exchange">Exchange Sort</option>
-                <option value="stooge">Stooge Sort</option>
-                <option value="quick">Quick Sort</option>
-                <option value="merge">Merge Sort</option>
-            </select>
-        </div>
+    <main class="main-content">
 
-        <div class="control-group">
-            <label for="elements-slider" id="label-elements">Elementos: 15</label>
-            <input type="range" id="elements-slider" min="5" max="40" value="15">
-        </div>
+        <!-- 1. ORDENAMIENTOS -->
+        <section id="tab-sorts" class="tab-content active">
+            <header>
+                <h1>Visualizador de Algoritmos de Ordenamiento</h1>
+                <p>Selecciona cualquiera de los 8 algoritmos, ajusta los parámetros y observa su funcionamiento.</p>
+            </header>
 
-        <div class="control-group">
-            <label for="speed-slider" id="label-speed">Velocidad: 100 ms</label>
-            <input type="range" id="speed-slider" min="10" max="500" value="100">
-        </div>
+            <div class="control-panel">
+                <div class="control-group">
+                    <label for="algorithm">Algoritmo</label>
+                    <select id="algorithm">
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                        <option value="gnome">Gnome Sort</option>
+                        <option value="exchange">Exchange Sort</option>
+                        <option value="stooge">Stooge Sort</option>
+                        <option value="quick">Quick Sort</option>
+                        <option value="merge">Merge Sort</option>
+                    </select>
+                </div>
 
-        <div class="btn-container">
-            <button class="btn-generate" id="btn-generate">Generar arreglo</button>
-            <button class="btn-start" id="btn-start">▶ Iniciar</button>
-            <button class="btn-pause" id="btn-pause">❚❚ Pausar</button>
-            <button class="btn-reset" id="btn-reset">↺ Reiniciar</button>
-            <button class="btn-compare" id="btn-compare">⚖️ Comparar Dos</button>
-        </div>
-    </div>
+                <div class="control-group">
+                    <label for="elements-slider" id="label-elements">Elementos: 15</label>
+                    <input type="range" id="elements-slider" min="5" max="40" value="15">
+                </div>
 
-    <!-- Barras gráficas (izquierda) y código del algoritmo (derecha) -->
-    <div class="main-area">
-        <div id="array-container"></div>
-        <aside id="code-panel">
-            <div id="code-title">Código</div>
-            <div id="code-body"></div>
-        </aside>
-    </div>
+                <div class="control-group">
+                    <label for="speed-slider" id="label-speed">Velocidad: 100 ms</label>
+                    <input type="range" id="speed-slider" min="10" max="500" value="100">
+                </div>
 
-    <!-- Tabla de estadísticas: comparaciones, intercambios y tiempo -->
-    <div id="stats-panel">
-        <div class="stats-header">
-            <h3>📊 Estadísticas de ejecución</h3>
-            <button class="btn-clear" id="btn-clear-stats">Limpiar tabla</button>
-        </div>
-        <div class="stats-scroll">
-            <table id="stats-table">
-                <thead>
-                    <tr>
-                        <th>Algoritmo</th>
-                        <th>Elementos</th>
-                        <th>Comparaciones</th>
-                        <th>Intercambios</th>
-                        <th>Tiempo</th>
-                    </tr>
-                </thead>
-                <tbody id="stats-body">
-                    <tr class="vacio-row"><td colspan="5" class="vacio">Aún no hay ejecuciones. Pulsa "Iniciar".</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <p class="stats-nota">Intercambios = cambios de lugar entre dos barras o movimientos/escrituras de un elemento (Insertion y Merge). El tiempo incluye la pausa de la animación y no cuenta el tiempo en pausa.</p>
-    </div>
-
-    <!-- Panel de comparación con selectores, selector de tamaño y animación simultánea -->
-    <div id="comparison-container" style="display: none; margin-top: 20px; flex-direction: column; gap: 15px; background: #181818; padding: 20px; border-radius: 8px;">
-        <div style="display: flex; justify-content: center; align-items: flex-end; gap: 20px; flex-wrap: wrap;">
-            <div class="control-group">
-                <label for="algo1-select">Método 1:</label>
-                <select id="algo1-select">
-                <option value="bubble">Bubble Sort</option>
-                <option value="selection">Selection Sort</option>
-                <option value="insertion">Insertion Sort</option>
-                <option value="gnome">Gnome Sort</option>
-                <option value="exchange">Exchange Sort</option>
-                <option value="stooge">Stooge Sort</option>
-                <option value="quick">Quick Sort</option>
-                <option value="merge">Merge Sort</option>
-                </select>
+                <div class="btn-container">
+                    <button class="btn-generate" id="btn-generate">Generar arreglo</button>
+                    <button class="btn-start" id="btn-start">▶ Iniciar</button>
+                    <button class="btn-pause" id="btn-pause">❚❚ Pausar</button>
+                    <button class="btn-reset" id="btn-reset">↺ Reiniciar</button>
+                    <button class="btn-compare" id="btn-compare">⚖️ Comparar Dos</button>
+                </div>
             </div>
-            <div class="control-group">
-                <label for="algo2-select">Método 2:</label>
-                <select id="algo2-select">
-                <option value="quick">Quick Sort</option>
-                <option value="bubble">Bubble Sort</option>
-                <option value="selection">Selection Sort</option>
-                <option value="insertion">Insertion Sort</option>
-                <option value="gnome">Gnome Sort</option>
-                <option value="exchange">Exchange Sort</option>
-                <option value="stooge">Stooge Sort</option>
-                <option value="merge">Merge Sort</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="elements-slider-comp" id="label-elements-comp">Elementos: 15</label>
-                <input type="range" id="elements-slider-comp" min="5" max="40" value="15">
-            </div>
-            <button class="btn-compare-start" id="btn-compare-start">▶ Iniciar Comparación</button>
-            <button class="btn-pause" id="btn-comp-pause">❚❚ Pausar</button>
-            <button class="btn-reset" id="btn-comp-reset">↺ Reiniciar</button>
-        </div>
 
-        <div style="display: flex; gap: 20px; justify-content: space-around; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 250px; background: #121212; padding: 15px; border-radius: 8px; text-align: center;">
-                <h3 id="title-algo1">Método 1</h3>
-                <p id="time-algo1">Tiempo: 0 ms</p>
-                <div id="container-algo1" style="display: flex; align-items: flex-end; justify-content: center; height: 250px; gap: 2px;"></div>
+            <div class="main-area">
+                <div id="array-container"></div>
+                <aside id="code-panel">
+                    <div id="code-title">Código</div>
+                    <div id="code-body"></div>
+                </aside>
             </div>
-            <div style="flex: 1; min-width: 250px; background: #121212; padding: 15px; border-radius: 8px; text-align: center;">
-                <h3 id="title-algo2">Método 2</h3>
-                <p id="time-algo2">Tiempo: 0 ms</p>
-                <div id="container-algo2" style="display: flex; align-items: flex-end; justify-content: center; height: 250px; gap: 2px;"></div>
-            </div>
-        </div>
-        <div class="stats-scroll">
-            <table id="comp-stats-table">
-                <thead>
-                    <tr>
-                        <th>Método</th>
-                        <th>Comparaciones</th>
-                        <th>Intercambios</th>
-                        <th>Tiempo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td id="cs-name-1">Método 1</td>
-                        <td id="cs-comp-1">0</td>
-                        <td id="cs-swap-1">0</td>
-                        <td id="cs-time-1">0 ms</td>
-                    </tr>
-                    <tr>
-                        <td id="cs-name-2">Método 2</td>
-                        <td id="cs-comp-2">0</td>
-                        <td id="cs-swap-2">0</td>
-                        <td id="cs-time-2">0 ms</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div id="comparison-result" style="text-align: center; font-size: 18px; font-weight: bold; color: #38a169;"></div>
-    </div>
 
+            <div id="stats-panel">
+                <div class="stats-header">
+                    <h3>📊 Estadísticas de ejecución</h3>
+                    <button class="btn-clear" id="btn-clear-stats">Limpiar tabla</button>
+                </div>
+                <div class="stats-scroll">
+                    <table id="stats-table">
+                        <thead>
+                            <tr>
+                                <th>Algoritmo</th>
+                                <th>Elementos</th>
+                                <th>Comparaciones</th>
+                                <th>Intercambios</th>
+                                <th>Tiempo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-body">
+                            <tr class="vacio-row"><td colspan="5" class="vacio">Aún no hay ejecuciones. Pulsa "Iniciar".</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="stats-nota">Intercambios = cambios de lugar entre dos barras o movimientos/escrituras de un elemento (Insertion y Merge). El tiempo incluye la pausa de la animación y no cuenta el tiempo en pausa.</p>
+            </div>
+
+            <div id="comparison-container" style="display: none; margin-top: 20px; flex-direction: column; gap: 15px; background: #181818; padding: 20px; border-radius: 8px;">
+                <div style="display: flex; justify-content: center; align-items: flex-end; gap: 20px; flex-wrap: wrap;">
+                    <div class="control-group">
+                        <label for="algo1-select">Método 1:</label>
+                        <select id="algo1-select">
+                            <option value="bubble">Bubble Sort</option>
+                            <option value="selection">Selection Sort</option>
+                            <option value="insertion">Insertion Sort</option>
+                            <option value="gnome">Gnome Sort</option>
+                            <option value="exchange">Exchange Sort</option>
+                            <option value="stooge">Stooge Sort</option>
+                            <option value="quick">Quick Sort</option>
+                            <option value="merge">Merge Sort</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="algo2-select">Método 2:</label>
+                        <select id="algo2-select">
+                            <option value="quick">Quick Sort</option>
+                            <option value="bubble">Bubble Sort</option>
+                            <option value="selection">Selection Sort</option>
+                            <option value="insertion">Insertion Sort</option>
+                            <option value="gnome">Gnome Sort</option>
+                            <option value="exchange">Exchange Sort</option>
+                            <option value="stooge">Stooge Sort</option>
+                            <option value="merge">Merge Sort</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="elements-slider-comp" id="label-elements-comp">Elementos: 15</label>
+                        <input type="range" id="elements-slider-comp" min="5" max="40" value="15">
+                    </div>
+                    <button class="btn-compare-start" id="btn-compare-start">▶ Iniciar Comparación</button>
+                    <button class="btn-pause" id="btn-comp-pause">❚❚ Pausar</button>
+                    <button class="btn-reset" id="btn-comp-reset">↺ Reiniciar</button>
+                </div>
+
+                <div style="display: flex; gap: 20px; justify-content: space-around; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px; background: #121212; padding: 15px; border-radius: 8px; text-align: center;">
+                        <h3 id="title-algo1">Método 1</h3>
+                        <p id="time-algo1">Tiempo: 0 ms</p>
+                        <div id="container-algo1" style="display: flex; align-items: flex-end; justify-content: center; height: 250px; gap: 2px;"></div>
+                    </div>
+                    <div style="flex: 1; min-width: 250px; background: #121212; padding: 15px; border-radius: 8px; text-align: center;">
+                        <h3 id="title-algo2">Método 2</h3>
+                        <p id="time-algo2">Tiempo: 0 ms</p>
+                        <div id="container-algo2" style="display: flex; align-items: flex-end; justify-content: center; height: 250px; gap: 2px;"></div>
+                    </div>
+                </div>
+                <div class="stats-scroll">
+                    <table id="comp-stats-table">
+                        <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Comparaciones</th>
+                                <th>Intercambios</th>
+                                <th>Tiempo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="cs-name-1">Método 1</td>
+                                <td id="cs-comp-1">0</td>
+                                <td id="cs-swap-1">0</td>
+                                <td id="cs-time-1">0 ms</td>
+                            </tr>
+                            <tr>
+                                <td id="cs-name-2">Método 2</td>
+                                <td id="cs-comp-2">0</td>
+                                <td id="cs-swap-2">0</td>
+                                <td id="cs-time-2">0 ms</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="comparison-result" style="text-align: center; font-size: 18px; font-weight: bold; color: #38a169;"></div>
+            </div>
+        </section>
+
+        <!-- 2. HUFFMAN -->
+        <section id="tab-huffman" class="tab-content">
+            <ol id="flow" class="flow">
+                <li>Buscar libro / subir TXT</li><li>Analizar</li><li>Construir Huffman</li>
+                <li>Comprimir</li><li>Inspeccionar</li><li>Descargar / descomprimir</li>
+            </ol>
+
+            <div class="panel-grid">
+                <div class="card">
+                    <h2>1 · Entrada</h2>
+                    <div class="control-group">
+                        <label for="file-input">Archivo .txt local (o usa la pestaña Libros):</label>
+                        <input type="file" id="file-input" accept=".txt,text/plain" class="file-upload">
+                        <small id="src-info" class="muted"></small>
+                    </div>
+                    <div class="control-group">
+                        <label for="input-text">Texto:</label>
+                        <textarea id="input-text" rows="7" placeholder="Escribe, pega o carga texto..."></textarea>
+                    </div>
+                    <div class="btn-container">
+                        <button id="btn-analyze" class="btn btn-decompress">Analizar y construir árbol</button>
+                        <button id="btn-compress" class="btn btn-start">Comprimir a .hfc</button>
+                        <button id="btn-clear" class="btn btn-reset">Limpiar</button>
+                    </div>
+                    <div class="btn-container">
+                        <button id="btn-download-hfc" class="btn btn-decompress" disabled>Descargar .hfc</button>
+                        <button id="btn-to-inspector" class="btn btn-decompress" disabled>Inspeccionar</button>
+                    </div>
+                    <div id="integrity"></div>
+                    <div class="control-group result-group">
+                        <label for="output-text">Vista parcial de los bits comprimidos:</label>
+                        <textarea id="output-text" rows="4" readonly></textarea>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div id="stats-panel-huffman" class="huffman-stats">
+                        <h3>Métricas</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card"><span>Original</span><p id="m-orig" class="highlight">—</p></div>
+                            <div class="stat-card"><span>Comprimido (.hfc)</span><p id="m-comp" class="highlight">—</p></div>
+                            <div class="stat-card"><span>Ahorro</span><p id="m-save" class="highlight">—</p></div>
+                            <div class="stat-card"><span>Reducción</span><p id="m-pct" class="highlight">—</p></div>
+                            <div class="stat-card"><span>Razón</span><p id="m-ratio" class="highlight">—</p></div>
+                            <div class="stat-card"><span>Símbolos distintos</span><p id="m-sym" class="highlight">—</p></div>
+                        </div>
+                        <small id="m-detail" class="muted"></small>
+                    </div>
+                    <label class="lbl">Tabla de frecuencias y códigos:</label>
+                    <div class="table-container">
+                        <table><thead><tr><th>Símbolo</th><th>Frecuencia</th><th>Código</th><th>Bits</th></tr></thead>
+                        <tbody id="huffman-body"></tbody></table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card margin-top"><h3>Árbol de Huffman (0 = izquierda, 1 = derecha)</h3>
+                <div id="tree-box" class="tree-box"></div></div>
+
+            <div class="card margin-top" id="ins-panel">
+                <h2>Inspector de archivos .hfc</h2>
+                <input type="file" id="hfc-input" accept=".hfc" class="file-upload">
+                <div class="panel-grid margin-top">
+                    <div><table class="info"><tbody id="ins-info"></tbody></table>
+                        <label class="lbl">Datos binarios (primeros bytes; · = relleno):</label>
+                        <pre id="ins-bits" class="bits"></pre>
+                        <div class="btn-container">
+                            <button id="btn-ins-dec" class="btn btn-start">Descomprimir</button>
+                            <button id="btn-ins-txt" class="btn btn-decompress" disabled>Descargar .txt</button>
+                        </div>
+                        <div id="ins-result"></div>
+                        <textarea id="ins-text" rows="6" readonly placeholder="Texto recuperado..."></textarea>
+                    </div>
+                    <div><label class="lbl">Códigos almacenados / reconstruidos:</label>
+                        <div class="table-container"><table><thead><tr><th>Símbolo</th><th>Frecuencia</th><th>Código</th><th>Bits</th></tr></thead>
+                        <tbody id="ins-body"></tbody></table></div></div>
+                </div>
+                <label class="lbl">Árbol reconstruido:</label>
+                <div id="ins-tree" class="tree-box"></div>
+            </div>
+        </section>
+
+        <!-- 3. LIBROS -->
+        <section id="tab-libros" class="tab-content">
+            <div class="card">
+                <h2>Project Gutenberg - Libros</h2>
+                <div class="control-group">
+                    <input type="text" id="gutenberg-search" placeholder="Buscar libro por título o autor en Project Gutenberg...">
+                    <button class="btn btn-start" onclick="searchGutenberg()">Buscar Obra</button>
+                </div>
+                <div id="gutenberg-results" style="margin-top: 15px;"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ARCHIVOS JS SECUNDARIOS INTEL / PROPIO DE ORDENAMIENTOS -->
+    <script src="datos.js"></script>
+    <script src="Codigos.js"></script>
+    <script src="ordenamientos.js"></script>
+    <script src="render.js"></script>
+    
+    <!-- MOTOR INTEGRADO DE HUFFMAN Y RUTEO -->
+    <script src="huffman.js"></script>
+
+    <!-- SCRIPT INTERNO CON DISPARADOR AUTOMÁTICO REPARADO -->
     <script>
         const container = document.getElementById('array-container');
         const elementsSlider = document.getElementById('elements-slider');
@@ -185,7 +304,6 @@
         let isPaused = false;
         let stopRequested = false;
 
-        // --- ESTADÍSTICAS: comparaciones, intercambios y tiempo ---
         let statComp = 0, statSwap = 0, statMs = 0, statLast = 0;
         let statTimer = null;
         let filaStat = null;
@@ -236,13 +354,11 @@
         }
 
         document.getElementById('btn-clear-stats').addEventListener('click', () => {
-            if (filaStat) return; // no limpiar mientras se ejecuta
+            if (filaStat) return;
             document.getElementById('stats-body').innerHTML =
                 '<tr class="vacio-row"><td colspan="5" class="vacio">Aún no hay ejecuciones. Pulsa "Iniciar".</td></tr>';
         });
 
-        // --- NÚMEROS ENCIMA DE LAS BARRAS ---
-        // Muestra el valor numérico de cada barra a partir de su altura
         function etiquetar(bar) {
             const v = Math.round(parseFloat(bar.style.height) / 3);
             let s = bar.querySelector('.valor');
@@ -254,7 +370,6 @@
             s.textContent = v;
         }
 
-        // Cada vez que una barra cambie de altura, actualiza su número
         new MutationObserver(muts => {
             muts.forEach(m => {
                 if (m.target.classList.contains('bar')) etiquetar(m.target);
@@ -303,153 +418,150 @@
             }
         }
 
-        // --- PANEL DE CÓDIGO ---
-        // Cada algoritmo guarda las líneas que se muestran. El número entre /* */ es el índice
-        // de línea que usan las llamadas a resaltar([...]) dentro de cada algoritmo.
         const CODIGOS = {
             bubble: {
                 titulo: 'Bubble Sort',
                 lineas: [
-                    /*0*/ 'for (let i = 0; i < n; i++) {',
-                    /*1*/ '  for (let j = 0; j < n - i - 1; j++) {',
-                    /*2*/ '    if (array[j] > array[j + 1]) {',
-                    /*3*/ '      let temp = array[j];',
-                    /*4*/ '      array[j] = array[j + 1];',
-                    /*5*/ '      array[j + 1] = temp;',
-                    /*6*/ '    }',
-                    /*7*/ '  }',
-                    /*8*/ '  // array[n - i - 1] ya quedó en su lugar',
-                    /*9*/ '}'
+                    'for (let i = 0; i < n; i++) {',
+                    '  for (let j = 0; j < n - i - 1; j++) {',
+                    '    if (array[j] > array[j + 1]) {',
+                    '      let temp = array[j];',
+                    '      array[j] = array[j + 1];',
+                    '      array[j + 1] = temp;',
+                    '    }',
+                    '  }',
+                    '  // array[n - i - 1] ya quedó en su lugar',
+                    '}'
                 ]
             },
             insertion: {
                 titulo: 'Insertion Sort',
                 lineas: [
-                    /*0*/ 'for (let i = 1; i < n; i++) {',
-                    /*1*/ '  let key = array[i];',
-                    /*2*/ '  let j = i - 1;',
-                    /*3*/ '  while (j >= 0 && array[j] > key) {',
-                    /*4*/ '    array[j + 1] = array[j];',
-                    /*5*/ '    j = j - 1;',
-                    /*6*/ '  }',
-                    /*7*/ '  array[j + 1] = key;',
-                    /*8*/ '}'
+                    'for (let i = 1; i < n; i++) {',
+                    '  let key = array[i];',
+                    '  let j = i - 1;',
+                    '  while (j >= 0 && array[j] > key) {',
+                    '    array[j + 1] = array[j];',
+                    '    j = j - 1;',
+                    '  }',
+                    '  array[j + 1] = key;',
+                    '}'
                 ]
             },
             selection: {
                 titulo: 'Selection Sort',
                 lineas: [
-                    /*0*/ 'for (let i = 0; i < n; i++) {',
-                    /*1*/ '  let minIdx = i;',
-                    /*2*/ '  for (let j = i + 1; j < n; j++) {',
-                    /*3*/ '    if (array[j] < array[minIdx]) {',
-                    /*4*/ '      minIdx = j;',
-                    /*5*/ '    }',
-                    /*6*/ '  }',
-                    /*7*/ '  if (minIdx !== i) {',
-                    /*8*/ '    let temp = array[i];',
-                    /*9*/ '    array[i] = array[minIdx];',
-                    /*10*/ '    array[minIdx] = temp;',
-                    /*11*/ '  }',
-                    /*12*/ '}'
+                    'for (let i = 0; i < n; i++) {',
+                    '  let minIdx = i;',
+                    '  for (let j = i + 1; j < n; j++) {',
+                    '    if (array[j] < array[minIdx]) {',
+                    '      minIdx = j;',
+                    '    }',
+                    '  }',
+                    '  if (minIdx !== i) {',
+                    '    let temp = array[i];',
+                    '    array[i] = array[minIdx];',
+                    '    array[minIdx] = temp;',
+                    '  }',
+                    '}'
                 ]
             },
             merge: {
                 titulo: 'Merge Sort',
                 lineas: [
-                    /*0*/ 'function mergeSort(start, end) {',
-                    /*1*/ '  if (start >= end) return;',
-                    /*2*/ '  let mid = Math.floor((start + end) / 2);',
-                    /*3*/ '  mergeSort(start, mid);',
-                    /*4*/ '  mergeSort(mid + 1, end);',
-                    /*5*/ '  merge(start, mid, end);',
-                    /*6*/ '}',
-                    /*7*/ 'function merge(start, mid, end) {',
-                    /*8*/ '  // comparar las dos mitades ya ordenadas',
-                    /*9*/ '  while (i <= mid && j <= end) {',
-                    /*10*/ '    if (array[i] <= array[j]) temp.push(array[i++]);',
-                    /*11*/ '    else temp.push(array[j++]);',
-                    /*12*/ '  }',
-                    /*13*/ '  // pasar lo que sobre de cada mitad',
-                    /*14*/ '  while (i <= mid) temp.push(array[i++]);',
-                    /*15*/ '  while (j <= end) temp.push(array[j++]);',
-                    /*16*/ '  // escribir temp en el arreglo',
-                    /*17*/ '  for (let k = 0; k < temp.length; k++) {',
-                    /*18*/ '    array[start + k] = temp[k];',
-                    /*19*/ '  }',
-                    /*20*/ '}'
+                    'function mergeSort(start, end) {',
+                    '  if (start >= end) return;',
+                    '  let mid = Math.floor((start + end) / 2);',
+                    '  mergeSort(start, mid);',
+                    '  mergeSort(mid + 1, end);',
+                    '  merge(start, mid, end);',
+                    '}',
+                    'function merge(start, mid, end) {',
+                    '  // comparar las dos mitades ya ordenadas',
+                    '  while (i <= mid && j <= end) {',
+                    '    if (array[i] <= array[j]) temp.push(array[i++]);',
+                    '    else temp.push(array[j++]);',
+                    '  }',
+                    '  // pasar lo que sobre de cada mitad',
+                    '  while (i <= mid) temp.push(array[i++]);',
+                    '  while (j <= end) temp.push(array[j++]);',
+                    '  // escribir temp en el arreglo',
+                    '  for (let k = 0; k < temp.length; k++) {',
+                    '    array[start + k] = temp[k];',
+                    '  }',
+                    '}'
                 ]
             },
             quick: {
                 titulo: 'Quick Sort',
                 lineas: [
-                    /*0*/ 'function quickSort(low, high) {',
-                    /*1*/ '  if (low < high) {',
-                    /*2*/ '    let pi = partition(low, high);',
-                    /*3*/ '    quickSort(low, pi - 1);',
-                    /*4*/ '    quickSort(pi + 1, high);',
-                    /*5*/ '  }',
-                    /*6*/ '}',
-                    /*7*/ 'function partition(low, high) {',
-                    /*8*/ '  let pivot = array[high];',
-                    /*9*/ '  let i = low - 1;',
-                    /*10*/ '  for (let j = low; j < high; j++) {',
-                    /*11*/ '    if (array[j] < pivot) {',
-                    /*12*/ '      i++;',
-                    /*13*/ '      [array[i], array[j]] = [array[j], array[i]];',
-                    /*14*/ '    }',
-                    /*15*/ '  }',
-                    /*16*/ '  // el pivote va a su posición final',
-                    /*17*/ '  [array[i + 1], array[high]] = [array[high], array[i + 1]];',
-                    /*18*/ '  return i + 1;',
-                    /*19*/ '}'
+                    'function quickSort(low, high) {',
+                    '  if (low < high) {',
+                    '    let pi = partition(low, high);',
+                    '    quickSort(low, pi - 1);',
+                    '    quickSort(pi + 1, high);',
+                    '  }',
+                    '}',
+                    'function partition(low, high) {',
+                    '  let pivot = array[high];',
+                    '  let i = low - 1;',
+                    '  for (let j = low; j < high; j++) {',
+                    '    if (array[j] < pivot) {',
+                    '      i++;',
+                    '      [array[i], array[j]] = [array[j], array[i]];',
+                    '    }',
+                    '  }',
+                    '  // el pivote va a su posición final',
+                    '  [array[i + 1], array[high]] = [array[high], array[i + 1]];',
+                    '  return i + 1;',
+                    '}'
                 ]
             },
             gnome: {
                 titulo: 'Gnome Sort',
                 lineas: [
-                    /*0*/ 'function gnomeSort() {',
-                    /*1*/ '  let i = 0;',
-                    /*2*/ '  while (i < n) {',
-                    /*3*/ '    if (i === 0 || array[i] >= array[i - 1]) {',
-                    /*4*/ '      i++;',
-                    /*5*/ '    } else {',
-                    /*6*/ '      [array[i], array[i - 1]] = [array[i - 1], array[i]];',
-                    /*7*/ '      i--;',
-                    /*8*/ '    }',
-                    /*9*/ '  }',
-                    /*10*/ '}'
+                    'function gnomeSort() {',
+                    '  let i = 0;',
+                    '  while (i < n) {',
+                    '    if (i === 0 || array[i] >= array[i - 1]) {',
+                    '      i++;',
+                    '    } else {',
+                    '      [array[i], array[i - 1]] = [array[i - 1], array[i]];',
+                    '      i--;',
+                    '    }',
+                    '  }',
+                    '}'
                 ]
             },
             exchange: {
                 titulo: 'Exchange Sort',
                 lineas: [
-                    /*0*/ 'for (let i = 0; i < n - 1; i++) {',
-                    /*1*/ '  for (let j = i + 1; j < n; j++) {',
-                    /*2*/ '    if (array[i] > array[j]) {',
-                    /*3*/ '      let temp = array[i];',
-                    /*4*/ '      array[i] = array[j];',
-                    /*5*/ '      array[j] = temp;',
-                    /*6*/ '    }',
-                    /*7*/ '  }',
-                    /*8*/ '  // array[i] ya quedó en su lugar',
-                    /*9*/ '}'
+                    'for (let i = 0; i < n - 1; i++) {',
+                    '  for (let j = i + 1; j < n; j++) {',
+                    '    if (array[i] > array[j]) {',
+                    '      let temp = array[i];',
+                    '      array[i] = array[j];',
+                    '      array[j] = temp;',
+                    '    }',
+                    '  }',
+                    '  // array[i] ya quedó en su lugar',
+                    '}'
                 ]
             },
             stooge: {
                 titulo: 'Stooge Sort',
                 lineas: [
-                    /*0*/ 'function stoogeSort(l, h) {',
-                    /*1*/ '  if (array[l] > array[h]) {',
-                    /*2*/ '    [array[l], array[h]] = [array[h], array[l]];',
-                    /*3*/ '  }',
-                    /*4*/ '  if (h - l + 1 > 2) {',
-                    /*5*/ '    let t = Math.floor((h - l + 1) / 3);',
-                    /*6*/ '    stoogeSort(l, h - t);',
-                    /*7*/ '    stoogeSort(l + t, h);',
-                    /*8*/ '    stoogeSort(l, h - t);',
-                    /*9*/ '  }',
-                    /*10*/ '}'
+                    'function stoogeSort(l, h) {',
+                    '  if (array[l] > array[h]) {',
+                    '    [array[l], array[h]] = [array[h], array[l]];',
+                    '  }',
+                    '  if (h - l + 1 > 2) {',
+                    '    let t = Math.floor((h - l + 1) / 3);',
+                    '    stoogeSort(l, h - t);',
+                    '    stoogeSort(l + t, h);',
+                    '    stoogeSort(l, h - t);',
+                    '  }',
+                    '}'
                 ]
             }
         };
@@ -458,7 +570,6 @@
         const codeBody = document.getElementById('code-body');
         let filasActivas = [];
 
-        // Dibuja en el panel derecho el código del algoritmo indicado
         function mostrarCodigo(nombre) {
             const info = CODIGOS[nombre];
             if (!info) return;
@@ -481,7 +592,6 @@
             codeBody.scrollTop = 0;
         }
 
-        // Marca la(s) línea(s) que se están ejecutando en este momento
         function resaltar(lineas) {
             const indices = [].concat(lineas);
             filasActivas.forEach(f => f.classList.remove('activa'));
@@ -493,7 +603,6 @@
                     filasActivas.push(fila);
                 }
             });
-            // Mantener a la vista la primera línea resaltada (sin mover la página)
             const primera = filasActivas[0];
             if (primera) {
                 const arriba = primera.offsetTop;
@@ -509,13 +618,11 @@
             filasActivas = [];
         }
 
-        // Pausa corta (respeta pausa/velocidad) para que se alcance a ver la línea resaltada
         async function pausaPaso() {
             await checkControlState();
             await sleep(parseInt(speedSlider.value));
         }
 
-        // --- 1. BUBBLE SORT ---
         async function bubbleSort() {
             const bars = document.getElementsByClassName('bar');
             let len = array.length;
@@ -548,7 +655,6 @@
             }
         }
 
-        // --- 2. INSERTION SORT ---
         async function insertionSort() {
             const bars = document.getElementsByClassName('bar');
             for (let i = 1; i < array.length; i++) {
@@ -583,7 +689,6 @@
             for (let i = 0; i < bars.length; i++) bars[i].style.backgroundColor = '#38a169';
         }
 
-        // --- 3. SELECTION SORT ---
         async function selectionSort() {
             const bars = document.getElementsByClassName('bar');
             let n = array.length;
@@ -622,7 +727,6 @@
             }
         }
 
-        // --- 4. MERGE SORT ---
         async function mergeSort(start = 0, end = array.length - 1) {
             if (start >= end) return;
             const mid = Math.floor((start + end) / 2);
@@ -667,7 +771,6 @@
             }
         }
 
-        // --- 5. QUICK SORT ---
         async function quickSort(low = 0, high = array.length - 1) {
             if (low < high) {
                 resaltar([2]);
@@ -722,7 +825,6 @@
             return (i + 1);
         }
 
-        // --- 6. GNOME SORT ---
         async function gnomeSort() {
             const bars = document.getElementsByClassName('bar');
             let n = array.length;
@@ -765,7 +867,6 @@
             for (let k = 0; k < bars.length; k++) bars[k].style.backgroundColor = '#38a169';
         }
 
-        // --- 7. EXCHANGE SORT ---
         async function exchangeSort() {
             const bars = document.getElementsByClassName('bar');
             let n = array.length;
@@ -798,7 +899,6 @@
             bars[n - 1].style.backgroundColor = '#38a169';
         }
 
-        // --- 8. STOOGE SORT ---
         async function stoogeSort(l = 0, h = array.length - 1) {
             const bars = document.getElementsByClassName('bar');
             await checkControlState();
@@ -835,10 +935,9 @@
             }
         }
 
-        // --- CONTROL INDEPENDIENTE DE LA COMPARACIÓN (pausar / reiniciar) ---
         const btnCompPause = document.getElementById('btn-comp-pause');
         const btnCompReset = document.getElementById('btn-comp-reset');
-        let compStatTimer = null;    // actualiza la tabla de comparación en vivo
+        let compStatTimer = null;
 
         function pintarStatsComp(st1, st2) {
             [[st1, 1], [st2, 2]].forEach(([st, n]) => {
@@ -856,14 +955,13 @@
             );
         }
 
-        let compRunning = false;     // hay una comparación animándose
-        let compPaused = false;      // la comparación está en pausa
-        let compRunId = 0;           // identifica la ejecución vigente; al cambiar, las anteriores se cancelan
-        let compBaseData = [];       // datos iniciales de la última comparación (para Reiniciar)
+        let compRunning = false;
+        let compPaused = false;
+        let compRunId = 0;
+        let compBaseData = [];
         let compPauseInicio = 0;
-        let compPausaTotal = 0;      // ms en pausa, para no contarlos en los tiempos
+        let compPausaTotal = 0;
 
-        // Sustituye a sleep() dentro de la comparación: respeta pausa y cancelación
         async function compSleep(ms, runId) {
             await sleep(ms);
             while (compPaused) {
@@ -880,7 +978,6 @@
             btnCompareStart.disabled = bloquear;
         }
 
-        // Cancela cualquier comparación en curso y deja los controles listos
         function detenerComparacion() {
             compRunId++;
             clearInterval(compStatTimer);
@@ -926,7 +1023,6 @@
             document.getElementById('comparison-result').innerText = '';
         });
 
-        // Función auxiliar para renderizar barras iniciales de comparación
         function generarBarrasComparacion(numElementos, containerId) {
             const cont = document.getElementById(containerId);
             cont.innerHTML = '';
@@ -946,7 +1042,6 @@
             return datosTemp;
         }
 
-        // Función simuladora animada para cualquier algoritmo en el panel de comparación
         async function animarAlgoritmoComparacion(nombre, arr, containerId, runId, stats) {
             let a = [...arr];
             const cont = document.getElementById(containerId);
@@ -984,7 +1079,6 @@
                 bars[idx].style.backgroundColor = '#4a5568';
             }
 
-            // Ejecución animada paso a paso según el algoritmo seleccionado
             if (nombre === 'bubble') {
                 let len = a.length;
                 for (let i = 0; i < len; i++) {
@@ -1137,7 +1231,6 @@
             }
         }
 
-        // Mostrar panel de comparación y generar arreglos iniciales iguales
         btnCompare.addEventListener('click', () => {
             if (isSorting) return;
             const containerComp = document.getElementById('comparison-container');
@@ -1153,7 +1246,6 @@
             }
         });
 
-        // Actualizar barras de comparación al mover el slider de elementos de comparación
         elementsSliderComp.addEventListener('input', (e) => {
             const val = e.target.value;
             labelElementsComp.innerText = `Elementos: ${val}`;
@@ -1164,7 +1256,6 @@
             document.getElementById('comparison-result').innerText = '';
         });
 
-        // Manejador del Botón Iniciar Comparación con Animación y Tiempos Simultáneos
         btnCompareStart.addEventListener('click', async () => {
             if (compRunning) return;
             const numComp = elementsSliderComp.value;
@@ -1176,7 +1267,6 @@
             btnCompPause.innerText = "❚❚ Pausar";
             const runId = ++compRunId;
             bloquearControlesComp(true);
-            // Replicar los mismos datos exactos para el contenedor 2 para una comparación justa
             const cont2 = document.getElementById('container-algo2');
             cont2.innerHTML = '';
             const max = Math.max(...baseData, 100);
@@ -1213,14 +1303,11 @@
                 pintarStatsComp(stats1, stats2);
             }, 50);
 
-            // Ejecución simultánea e independiente para Método 1
             const promesa1 = (async () => {
                 let tStart = performance.now();
                 try {
                     await animarAlgoritmoComparacion(algo1Name, [...baseData], 'container-algo1', runId, stats1);
-                } catch (e) {
-                    return; // detenido con Reiniciar
-                }
+                } catch (e) { return; }
                 let tEnd = performance.now();
                 time1 = (tEnd - tStart - compPausaTotal).toFixed(2);
                 document.getElementById('time-algo1').innerText = `Tiempo: ${time1} ms`;
@@ -1228,14 +1315,11 @@
                 stats1.done = true;
             })();
 
-            // Ejecución simultánea e independiente para Método 2
             const promesa2 = (async () => {
                 let tStart = performance.now();
                 try {
                     await animarAlgoritmoComparacion(algo2Name, [...baseData], 'container-algo2', runId, stats2);
-                } catch (e) {
-                    return; // detenido con Reiniciar
-                }
+                } catch (e) { return; }
                 let tEnd = performance.now();
                 time2 = (tEnd - tStart - compPausaTotal).toFixed(2);
                 document.getElementById('time-algo2').innerText = `Tiempo: ${time2} ms`;
@@ -1243,9 +1327,8 @@
                 stats2.done = true;
             })();
 
-            // Esperar a que ambos terminen para emitir el mensaje final
             await Promise.all([promesa1, promesa2]);
-            if (runId !== compRunId) return; // la comparación fue reiniciada
+            if (runId !== compRunId) return;
             clearInterval(compStatTimer);
             pintarStatsComp(stats1, stats2);
 
@@ -1257,7 +1340,6 @@
             bloquearControlesComp(false);
         });
 
-        // Manejador del Botón Iniciar
         btnStart.addEventListener('click', async () => {
             if (isSorting) return;
             isSorting = true;
@@ -1283,7 +1365,7 @@
                 else if (selectedAlgo === 'exchange') await exchangeSort();
                 else if (selectedAlgo === 'stooge') await stoogeSort();
             } catch (e) {
-                interrumpido = true; // Interrupción por reinicio controlada
+                interrumpido = true;
             }
             limpiarResaltado();
             terminarEstadisticas(interrumpido);
@@ -1326,13 +1408,15 @@
         });
 
         btnGenerate.addEventListener('click', generateArray);
-
         algorithmSelect.addEventListener('change', () => mostrarCodigo(algorithmSelect.value));
 
-        window.onload = () => {
-            generateArray();
-            mostrarCodigo(algorithmSelect.value);
-        };
+        // INICIALIZACIÓN GARANTIZADA DE BARRAS AL CARGAR LA PÁGINA
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                generateArray();
+                mostrarCodigo(algorithmSelect.value);
+            }, 100);
+        });
     </script>
 </body>
 </html>

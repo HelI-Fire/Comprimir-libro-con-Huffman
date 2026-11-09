@@ -1,9 +1,10 @@
+/* ESTILOS GENERALES Y TEMA OSCURO ORIGINAL */
 body {
     background-color: #121212;
     color: #ffffff;
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
 header {
@@ -11,7 +12,72 @@ header {
     margin-bottom: 20px;
 }
 
-/* Panel de control superior */
+/* TOP NAVBAR (MENÚ DE 3 PESTAÑAS) */
+.top-navbar {
+    background-color: #1a1e29;
+    border-bottom: 2px solid #2d3748;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.brand {
+    font-weight: bold;
+    font-size: 16px;
+    color: #38a169;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px 0;
+}
+
+.nav-item {
+    background: transparent;
+    color: #a0aec0;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+    background-color: #2d3748;
+    color: #ffffff;
+}
+
+.nav-item.active {
+    background-color: #3182ce;
+    color: #ffffff;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* PANEL DE CONTROL DE ORDENAMIENTOS */
 .control-panel {
     display: flex;
     flex-wrap: wrap;
@@ -35,7 +101,7 @@ header {
     color: #b0b0b0;
 }
 
-select, input[type="range"] {
+select, input[type="range"], input[type="text"] {
     background-color: #2a2a2a;
     color: #ffffff;
     border: 1px solid #444;
@@ -49,7 +115,7 @@ select {
     cursor: pointer;
 }
 
-/* Botones de acción */
+/* BOTONES */
 .btn-container {
     display: flex;
     gap: 10px;
@@ -82,8 +148,9 @@ button:disabled {
 .btn-reset { background-color: #9b2c2c; }
 .btn-compare { background-color: #3182ce; }
 .btn-compare-start { background-color: #38a169; margin-top: 10px; }
+.btn-decompress { background-color: #3182ce; }
 
-/* Área de visualización de barras */
+/* ÁREA VISUALIZADORA Y CÓDIGO */
 #array-container {
     display: flex;
     align-items: flex-end;
@@ -99,11 +166,10 @@ button:disabled {
     background-color: #4a5568;
     width: 25px;
     display: inline-block;
-    position: relative; /* necesario para ubicar el número encima */
+    position: relative;
     transition: height 0.05s ease;
 }
 
-/* Número encima de cada barra (index.html) */
 .bar .valor,
 .barra-visualizador .valor {
     position: absolute;
@@ -115,14 +181,12 @@ button:disabled {
     pointer-events: none;
 }
 
-/* Barras de render.js */
 .barra-visualizador {
     position: relative;
     background-color: #4a5568;
     display: inline-block;
 }
 
-/* Zona principal: barras a la izquierda, código a la derecha */
 .main-area {
     display: flex;
     flex-wrap: wrap;
@@ -135,7 +199,6 @@ button:disabled {
     min-width: 0;
 }
 
-/* Panel de código del algoritmo */
 #code-panel {
     flex: 0 1 460px;
     min-width: 300px;
@@ -189,8 +252,8 @@ button:disabled {
     color: #ffffff;
 }
 
-/* Tabla de estadísticas */
-#stats-panel {
+/* TABLAS Y ESTADÍSTICAS */
+#stats-panel, .huffman-stats {
     margin-top: 20px;
     background-color: #181818;
     border-radius: 8px;
@@ -204,7 +267,7 @@ button:disabled {
     margin-bottom: 10px;
 }
 
-#stats-panel h3 {
+#stats-panel h3, .huffman-stats h3 {
     margin: 0;
     font-size: 16px;
 }
@@ -219,20 +282,20 @@ button:disabled {
     overflow-x: auto;
 }
 
-#stats-table {
+#stats-table, #comp-stats-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
 }
 
-#stats-table th,
-#stats-table td {
+#stats-table th, #stats-table td,
+#comp-stats-table th, #comp-stats-table td {
     padding: 8px 12px;
     text-align: center;
     border-bottom: 1px solid #2d3748;
 }
 
-#stats-table th {
+#stats-table th, #comp-stats-table th {
     background-color: #2d3748;
 }
 
@@ -251,20 +314,82 @@ button:disabled {
     color: #718096;
 }
 
-/* Tabla de comparación (Comparar Dos) */
-#comp-stats-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
+/* COMPONENTE HUFFMAN */
+.panel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
 }
 
-#comp-stats-table th,
-#comp-stats-table td {
-    padding: 8px 12px;
+.card {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #2d3748;
+}
+
+textarea {
+    width: 100%;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 6px;
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.result-group textarea { color: #38a169; }
+
+.table-container {
+    overflow-y: auto;
+    max-height: 350px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+table th, table td {
+    padding: 8px;
     text-align: center;
     border-bottom: 1px solid #2d3748;
 }
 
-#comp-stats-table th {
+table th {
     background-color: #2d3748;
+    position: sticky;
+    top: 0;
 }
+
+.margin-top { margin-top: 15px; }
+
+.file-upload {
+    background: #2a2a2a;
+    color: #fff;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.flow { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0 0 16px; counter-reset: s; }
+.flow li { counter-increment: s; background: #1e1e1e; border: 1px solid #2d3748; color: #a0aec0; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
+.flow li::before { content: counter(s) ". "; }
+.flow li.done { border-color: #38a169; color: #fff; }
+.flow li.now { background: #3182ce; border-color: #3182ce; color: #fff; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 10px; }
+.stat-card { flex: 1; background-color: #121212; padding: 10px; border-radius: 6px; text-align: center; }
+.stat-card span { font-size: 11px; color: #a0aec0; }
+.highlight { color: #38a169; font-weight: bold; font-size: 16px; margin: 4px 0 0 0; }
+.muted { color: #94a3b8; font-size: 12px; }
+.lbl { display: block; margin: 12px 0 6px; font-size: 13px; color: #b0b0b0; font-weight: bold; }
+.code, .bits { font-family: Consolas, monospace; }
+.bits { background: #2a2a2a; padding: 10px; border-radius: 6px; color: #38a169; white-space: pre-wrap; word-break: break-all; font-size: 12px; }
+.tree-box { overflow: auto; max-height: 480px; background: #161616; border-radius: 6px; }
+.ok { color: #38a169; font-weight: bold; margin: 8px 0; }
+.bad { color: #e53e3e; font-weight: bold; margin: 8px 0; }
+table.info td { text-align: left; }
+table.info td:first-child { color: #a0aec0; white-space: nowrap; }
+.book { margin-top: 10px; }
