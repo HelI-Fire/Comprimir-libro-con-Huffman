@@ -74,3 +74,4 @@ function generarArregloComparacion(tamano = 15, min = 15, max = 114) {
 function obtenerArregloComparacion() {
     return arregloComparacion;
 }
+//---fin----
