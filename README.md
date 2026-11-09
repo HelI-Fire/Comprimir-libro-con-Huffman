@@ -1,7 +1,7 @@
 # Visualizador-web-de-algoritmos
 Carpeta principal de nuestro proyecto web.
 Nombre del proyecto:
-Visualizador web de algoritmos de ordenamiento
+Compilador de libros con metodo Huffman
 
 Pagina URL:
 https://heli-fire.github.io/Comprimir-libro-con-Huffman/
