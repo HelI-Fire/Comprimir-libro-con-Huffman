@@ -395,3 +395,4 @@ async function cargarLibro(id, titulo, boton) {
   alert("No se pudo descargar. Abre el libro en gutenberg.org, descarga el 'Plain Text UTF-8' y súbelo con el botón de archivo.");
 } 
 //____implementar direccionamientio
+//---------implentar gui 
