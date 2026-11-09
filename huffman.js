@@ -336,6 +336,7 @@ async function viaProxy(url, tipo, ms = 20000) {
   }
   throw new Error("proxy");
 }
+//----------------------------------------------------
 
 async function buscarEnGutenberg(q) {
   const html = await viaProxy(`https://www.gutenberg.org/ebooks/search/?query=${encodeURIComponent(q)}`);
