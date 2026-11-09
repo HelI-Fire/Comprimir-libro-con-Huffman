@@ -418,7 +418,7 @@
             }
         }
 
-        const CODIGOS = {
+        const CODIGOS_PANEL = {
             bubble: {
                 titulo: 'Bubble Sort',
                 lineas: [
@@ -568,14 +568,14 @@
 
         const codeTitle = document.getElementById('code-title');
         const codeBody = document.getElementById('code-body');
-        let filasActivas = [];
+        let filasActivasPanel = [];
 
         function mostrarCodigo(nombre) {
-            const info = CODIGOS[nombre];
+            const info = CODIGOS_PANEL[nombre];
             if (!info) return;
             codeTitle.innerText = `Código: ${info.titulo}`;
             codeBody.innerHTML = '';
-            filasActivas = [];
+            filasActivasPanel = [];
             info.lineas.forEach((texto, i) => {
                 const fila = document.createElement('div');
                 fila.classList.add('code-line');
@@ -594,16 +594,16 @@
 
         function resaltar(lineas) {
             const indices = [].concat(lineas);
-            filasActivas.forEach(f => f.classList.remove('activa'));
-            filasActivas = [];
+            filasActivasPanel.forEach(f => f.classList.remove('activa'));
+            filasActivasPanel = [];
             indices.forEach(i => {
                 const fila = codeBody.children[i];
                 if (fila) {
                     fila.classList.add('activa');
-                    filasActivas.push(fila);
+                    filasActivasPanel.push(fila);
                 }
             });
-            const primera = filasActivas[0];
+            const primera = filasActivasPanel[0];
             if (primera) {
                 const arriba = primera.offsetTop;
                 const abajo = arriba + primera.offsetHeight;
@@ -614,8 +614,8 @@
         }
 
         function limpiarResaltado() {
-            filasActivas.forEach(f => f.classList.remove('activa'));
-            filasActivas = [];
+            filasActivasPanel.forEach(f => f.classList.remove('activa'));
+            filasActivasPanel = [];
         }
 
         async function pausaPaso() {
