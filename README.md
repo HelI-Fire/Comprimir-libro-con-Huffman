@@ -1,4 +1,4 @@
-# Visualizador-web-de-algoritmos
+# Visualizador-web-de-algoritmos-y-Comprimir-libros-con-Huffman
 Carpeta principal de nuestro proyecto web.
 Nombre del proyecto:
 Compilador de libros con metodo Huffman
