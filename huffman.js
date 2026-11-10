@@ -26,12 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================================
-// ALGORITMO DE HUFFMAN WEB COMPRESSOR (.hfc v1)
+// ALGORITMO DE HUFFMAN WEB COMPRESSOR (.fire v1)
 // ==========================================================
-const MAGIC = "HFC1";
+const MAGIC = "FIRE";
 let bytesActuales = null;
 let nombreActual = "texto.txt";
-let hfcActual = null;
+let fireActual = null;
 let ins = null;
 
 // ---------- Utilidades ----------
@@ -121,8 +121,8 @@ function decodificar(data, totalBits, raiz, origSize) {
   return out;
 }
 
-// ---------- Formato .hfc v1 ----------
-async function empaquetarHFC(bytes, nombre) {
+// ---------- Formato .fire v1 ----------
+async function empaquetarFIRE(bytes, nombre) {
   const freq = calcularFrecuencias(bytes);
   const raiz = construirArbol(freq);
   const codes = raiz ? generarCodigos(raiz) : {};
@@ -143,10 +143,10 @@ async function empaquetarHFC(bytes, nombre) {
   return { buf, freq, raiz, codes, totalBits, hdr: head, nSym: syms.length };
 }
 
-function leerHFC(buf) {
+function leerFIRE(buf) {
   const dv = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
   if (buf.length < 48 || new TextDecoder().decode(buf.slice(0, 4)) !== MAGIC)
-    throw new Error("No es un archivo .hfc válido (firma incorrecta).");
+    throw new Error("No es un archivo .fire válido (firma incorrecta).");
   const version = dv.getUint8(4), n = dv.getUint16(5);
   const origSize = dv.getUint32(7), totalBits = dv.getUint32(11);
   const hash = buf.slice(15, 47), L = dv.getUint8(47);
@@ -235,8 +235,8 @@ if ($('btn-analyze')) $('btn-analyze').addEventListener('click', () => {
 if ($('btn-compress')) $('btn-compress').addEventListener('click', async () => {
   const bytes = entradaBytes();
   if (!bytes.length) return alert("Carga un .txt, busca un libro o escribe texto.");
-  const r = await empaquetarHFC(bytes, nombreActual);
-  hfcActual = r.buf;
+  const r = await empaquetarFIRE(bytes, nombreActual);
+  fireActual = r.buf;
   renderTabla('huffman-body', r.freq, r.codes); renderArbol('tree-box', r.raiz);
   const ahorro = bytes.length - r.buf.length, pct = (ahorro / bytes.length) * 100;
   $('m-orig').textContent = fmt(bytes.length);
@@ -252,26 +252,26 @@ if ($('btn-compress')) $('btn-compress').addEventListener('click', async () => {
   const ok = hex(await sha256(rec)) === hex(await sha256(bytes));
   $('integrity').textContent = ok ? "✔ Integridad verificada (SHA-256 idéntico)" : "❌ El contenido recuperado NO coincide";
   $('integrity').className = ok ? "ok" : "bad";
-  $('btn-download-hfc').disabled = false; $('btn-to-inspector').disabled = false;
+  $('btn-download-fire').disabled = false; $('btn-to-inspector').disabled = false;
   setStep(4);
 });
 
-if ($('btn-download-hfc')) $('btn-download-hfc').addEventListener('click', () => {
-  if (hfcActual) descargar(hfcActual, nombreActual.replace(/\.[^.]*$/, "") + ".fire", "application/octet-stream");
+if ($('btn-download-fire')) $('btn-download-fire').addEventListener('click', () => {
+  if (fireActual) descargar(fireActual, nombreActual.replace(/\.[^.]*$/, "") + ".fire", "application/octet-stream");
 });
-if ($('btn-to-inspector')) $('btn-to-inspector').addEventListener('click', () => { if (hfcActual) cargarInspector(hfcActual, nombreActual.replace(/\.[^.]*$/, "") + ".fire"); });
+if ($('btn-to-inspector')) $('btn-to-inspector').addEventListener('click', () => { if (fireActual) cargarInspector(fireActual, nombreActual.replace(/\.[^.]*$/, "") + ".fire"); });
 if ($('btn-clear')) $('btn-clear').addEventListener('click', () => {
-  bytesActuales = null; hfcActual = null; editado = false;
+  bytesActuales = null; fireActual = null; editado = false;
   ['file-input'].forEach(i => $(i).value = "");
   $('input-text').value = ""; $('output-text').value = ""; $('src-info').textContent = "";
   $('huffman-body').innerHTML = ""; $('tree-box').innerHTML = "";
   ['m-orig', 'm-comp', 'm-save', 'm-pct', 'm-ratio', 'm-sym'].forEach(i => $(i).textContent = "—");
   $('m-detail').textContent = ""; $('integrity').textContent = "";
-  $('btn-download-hfc').disabled = true; $('btn-to-inspector').disabled = true; setStep(0);
+  $('btn-download-fire').disabled = true; $('btn-to-inspector').disabled = true; setStep(0);
 });
 
-// ---------- Inspector de Archivos .hfc ----------
-if ($('hfc-input')) $('hfc-input').addEventListener('change', e => {
+// ---------- Inspector de Archivos .fire ----------
+if ($('fire-input')) $('fire-input').addEventListener('change', e => {
   const f = e.target.files[0]; if (!f) return;
   const r = new FileReader();
   r.onload = ev => cargarInspector(new Uint8Array(ev.target.result), f.name);
@@ -280,11 +280,11 @@ if ($('hfc-input')) $('hfc-input').addEventListener('change', e => {
 
 function cargarInspector(buf, nombre) {
   try {
-    const h = leerHFC(buf); ins = { h, buf, nombre };
+    const h = leerFIRE(buf); ins = { h, buf, nombre };
     const ahorro = h.origSize - buf.length;
     $('ins-info').innerHTML = `
       <tr><td>Archivo</td><td>${esc(nombre)} (ext. .${esc(nombre.split('.').pop())})</td></tr>
-      <tr><td>Formato / versión</td><td>HFC · v${h.version}</td></tr>
+      <tr><td>Formato / versión</td><td>FIRE · v${h.version}</td></tr>
       <tr><td>Nombre original</td><td>${esc(h.nombre)}</td></tr>
       <tr><td>Tamaño original</td><td>${fmt(h.origSize)}</td></tr>
       <tr><td>Tamaño comprimido</td><td>${fmt(buf.length)} (encabezado ${h.hdr} B + datos ${h.data.length} B)</td></tr>
