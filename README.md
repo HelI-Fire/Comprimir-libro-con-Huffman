@@ -1,4 +1,4 @@
-# Visualizador-web-de-algoritmos
+# Visualizador-web-de-algoritmos-y-Comprimir-libros-con-Huffman
 Carpeta principal de nuestro proyecto web.
 Nombre del proyecto:
 Compilador de libros con metodo Huffman
@@ -13,7 +13,7 @@ Integrantes:
 4. Santana Rodriguez Angel Ulises
 
 Descripción: 
-En este proyecto se tomo como tarea la realizacion de una pagina web que demuestre visualmente diferentes metodos de ordenamiento el como funciona cada uno y tiempo que tarda uno.
+En este proyecto se tomo como tarea la realizacion de una pagina web que demuestre visualmente diferentes metodos de ordenamiento el como funciona cada uno y tiempo que tarda uno, tambien el uso y explicacion visual grafica de el uso de Huffman en comprimir archvios de texto (txt).
 
 Objetivo:
 Proveer una herramienta visual e interactiva basada en web para comprender, analizar y comparar el rendimiento y funcionamiento de diferentes algoritmos de ordenamiento mediante gráficas dinámicas.
@@ -28,6 +28,8 @@ Algoritmos implementados:
 7. Exchange sort
 8. Stooge sort
 
+Huffman utilizado para comprimir archivos
+
 Tecnologias utilizadas:
 1. Gemini Ai Pro
 2. GitHub Pages
@@ -35,7 +37,7 @@ Tecnologias utilizadas:
 4. Google meet
 
 Como ejecutar el proyecto:
-Para ejecutar la pagina web, es necesario abrir el link que dirige al apartado de los metodos de ordenamiento, este contiene botones intuitivos para iniciar el metodo de ordenamiento seleccionado, su tamaño de arreglo y velocidad, de igual forma contiene un boton para comprar dos metodos de ordenamiento y comparar cual termina antes y cual despues.
+Para ejecutar la pagina web, es necesario abrir el link que dirige al apartado de los metodos de ordenamiento, este contiene botones intuitivos para iniciar el metodo de ordenamiento seleccionado o comprimir archivos usando Huffman, su tamaño de arreglo y velocidad, de igual forma contiene un boton para comprar dos metodos de ordenamiento y comparar cual termina antes y cual despues.
 
 Uso de la aplicacion:
 
@@ -61,3 +63,21 @@ Se utilizo Gemini AI Pro como auxiliar y apoyo para la implementacion de los cod
 Aprendizajes y conclusiones:
 Con esta actividad nos permite acercanos un paso más a la experiencia laboral al utilizar GitHub como medio para subir actividades, trabajar en equipo y coordiación entre los miembros del equipo. 
 Es un mundo totalmente nuevo con nuevos retos por aprender y entender para estar mas cerca de lo que es la experiencia laboral en el mercado. Totalmente consideramos que valio la pena terminar esta activad.
+
+Deployment Huffman:
+El proyecto está alojado y disponible en línea a través de GitHub Pages, permitiendo su acceso directo mediante un navegador web.
+
+Organización del equipo:
+Gonzalez López Aldo Lissandro -  Encargado del moto matematico del proyecto, aplicando la técnica voraz.
+
+Castañeda Carrillo David - Encargado de asegurar que el proyecto cumpla con los requisitos de evaluación, maneje los datos de prueba y mida rendimiento real.
+
+Daza Esparza Logan Ronet - Rol encargado qy¿ue cargue el proyecto sea interactivo y visual utilizando librerías de Python.
+
+Santana Rodriguez Angel Ulises - Rol encargado de tomar el motor de Huffman y lo aplica a los archivos reales, asegurando que la informacion se transforme correctamente.
+
+Uso de IA:
+Se utilizo Gemini AI Pro como auxiliar y apoyo para la implementacion de los codigos, diseño o funcionamiento de la pagina, siendo el principal aliado para la elaboracion de este proyecto, permitiendonos implementar ideas, detalles o formas para el proyecto.
+
+Aprendizaje y conclusiones:
+Con esta actividad nos permite acercanos un paso más a la experiencia laboral al utilizar GitHub como medio para subir actividades, trabajar en equipo y coordiación entre los miembros del equipo. 
