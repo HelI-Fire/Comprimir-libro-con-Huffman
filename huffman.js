@@ -320,7 +320,7 @@ if ($('btn-ins-txt')) $('btn-ins-txt').addEventListener('click', () => {
   if (recuperado) descargar(recuperado, (ins.h.nombre || "recuperado.txt").replace(/\.[^.]*$/, "") + "_recuperado.txt", "text/plain");
 });
 
-// ---------- Project Gutenberg API ----------
+// ---------- Project Gutenberg API --------------------9
 const MI_PROXY = "https://gutenberg-proxy.isaac-castaneda8602.workers.dev/";
 const proxies = [...(MI_PROXY ? [u => `${MI_PROXY}/?url=${encodeURIComponent(u)}`] : []), u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
                  u => `https://corsproxy.io/?${encodeURIComponent(u)}`];
