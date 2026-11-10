@@ -212,7 +212,7 @@ if ($('file-input')) $('file-input').addEventListener('change', e => {
   const r = new FileReader();
   r.onload = ev => {
     bytesActuales = new Uint8Array(ev.target.result); nombreActual = f.name; editado = false;
-    $('input-text').value = new TextDecoder().decode(bytesActuales.slice(0, 20000));
+    $('input-text').value = new TextDecoder().decode(bytesActuales.slice(0, 50000));
     $('src-info').textContent = `Cargado: ${f.name} (${fmt(bytesActuales.length)}). Vista previa limitada a 20,000 bytes.`;
     setStep(1);
   };
@@ -309,7 +309,7 @@ if ($('btn-ins-dec')) $('btn-ins-dec').addEventListener('click', async () => {
     const h = ins.h;
     recuperado = decodificar(h.data, h.totalBits, h.raiz, h.origSize);
     const ok = hex(await sha256(recuperado)) === hex(h.hash);
-    $('ins-text').value = new TextDecoder().decode(recuperado.slice(0, 20000));
+    $('ins-text').value = new TextDecoder().decode(recuperado.slice(0, 50000));
     $('ins-result').textContent = ok ? `✔ Descompresión correcta: SHA-256 coincide con el original (${fmt(recuperado.length)})` : "❌ El hash NO coincide: archivo corrupto";
     $('ins-result').className = ok ? "ok" : "bad";
     $('btn-ins-txt').disabled = false; setStep(6);
@@ -383,7 +383,7 @@ async function cargarLibro(id, titulo, boton) {
       if (b.length < 500) continue;
       bytesActuales = b;
       nombreActual = titulo.replace(/[^\w\- ]+/g, "").slice(0, 60).trim().replace(/ +/g, "_") + ".txt"; editado = false;
-      $('input-text').value = new TextDecoder().decode(b.slice(0, 20000));
+      $('input-text').value = new TextDecoder().decode(b.slice(0, 50000));
       $('src-info').textContent = `Libro de gutenberg.org: ${titulo} (${fmt(b.length)}). Vista previa limitada a 20,000 bytes.`;
       estado.textContent = `✔ "${titulo}" cargado (${fmt(b.length)}).`;
       if (boton) { boton.disabled = false; boton.textContent = "Usar como entrada"; }
