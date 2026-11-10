@@ -396,4 +396,4 @@ async function cargarLibro(id, titulo, boton) {
   estado.textContent = " No se pudo descargar.";
   if (boton) { boton.disabled = false; boton.textContent = "Usar como entrada"; }
   alert("No se pudo descargar. Abre el libro en gutenberg.org, descarga el 'Plain Text UTF-8' y súbelo con el botón de archivo.");
-
+}
