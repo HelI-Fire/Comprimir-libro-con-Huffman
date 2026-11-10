@@ -70,7 +70,7 @@ El proyecto está alojado y disponible en línea a través de GitHub Pages, perm
 Organización del equipo:
 Gonzalez López Aldo Lissandro -  Encargado del moto matematico del proyecto, aplicando la técnica voraz.
 
-Castañeda Carrillo David - Encargado de asegurar que el proyecto cumpla con los requisitos de evaluación, maneje los datos de prueba y mida rendimiento real.
+Castañeda Carrillo Isaac - Encargado de asegurar que el proyecto cumpla con los requisitos de evaluación, maneje los datos de prueba y mida rendimiento real.
 
 Daza Esparza Logan Ronet - Rol encargado qy¿ue cargue el proyecto sea interactivo y visual utilizando librerías de Python.
 
