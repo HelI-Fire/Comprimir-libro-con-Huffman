@@ -257,9 +257,9 @@ if ($('btn-compress')) $('btn-compress').addEventListener('click', async () => {
 });
 
 if ($('btn-download-hfc')) $('btn-download-hfc').addEventListener('click', () => {
-  if (hfcActual) descargar(hfcActual, nombreActual.replace(/\.[^.]*$/, "") + ".hfc", "application/octet-stream");
+  if (hfcActual) descargar(hfcActual, nombreActual.replace(/\.[^.]*$/, "") + ".fire", "application/octet-stream");
 });
-if ($('btn-to-inspector')) $('btn-to-inspector').addEventListener('click', () => { if (hfcActual) cargarInspector(hfcActual, nombreActual.replace(/\.[^.]*$/, "") + ".hfc"); });
+if ($('btn-to-inspector')) $('btn-to-inspector').addEventListener('click', () => { if (hfcActual) cargarInspector(hfcActual, nombreActual.replace(/\.[^.]*$/, "") + ".fire"); });
 if ($('btn-clear')) $('btn-clear').addEventListener('click', () => {
   bytesActuales = null; hfcActual = null; editado = false;
   ['file-input'].forEach(i => $(i).value = "");
