@@ -347,6 +347,7 @@ async function buscarEnGutenberg(q) {
     author: li.querySelector(".subtitle")?.textContent.trim() || "Desconocido"
   })).filter(b => /^\d+$/.test(b.id)).slice(0, 8);
 }
+//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 
 async function searchGutenberg() {
   const q = $('gutenberg-search').value.trim(), box = $('gutenberg-results');
@@ -369,6 +370,7 @@ async function searchGutenberg() {
     bt.onclick = () => cargarLibro(b.id, b.title, bt); c.appendChild(bt); box.appendChild(c);
   });
 }
+//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 
 async function cargarLibro(id, titulo, boton) {
   const estado = $('gutenberg-status') || (() => { const p = document.createElement('p'); p.id = 'gutenberg-status'; p.className = 'muted'; $('gutenberg-results').before(p); return p; })();
@@ -395,3 +397,4 @@ async function cargarLibro(id, titulo, boton) {
   if (boton) { boton.disabled = false; boton.textContent = "Usar como entrada"; }
   alert("No se pudo descargar. Abre el libro en gutenberg.org, descarga el 'Plain Text UTF-8' y súbelo con el botón de archivo.");
 }
+//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
